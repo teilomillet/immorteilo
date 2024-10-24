@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 import os
 import re
+import random
+import string
 from pathlib import Path
+
+def generate_random_id(length=8):
+    """Generate a random ID of specified length using numbers."""
+    return ''.join(random.choices(string.digits, k=length))
 
 def clean_content(content):
     """Clean the content by removing header and replacing text patterns."""
@@ -28,7 +34,7 @@ def clean_content(content):
     return content.strip() + '\n'
 
 def rename_and_process_file(file_path):
-    """Process a single file and rename it to remove underscore."""
+    """Process a single file and generate new filename with random ID."""
     try:
         # Read the input file
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -37,8 +43,14 @@ def rename_and_process_file(file_path):
         # Clean and modify content
         modified_content = clean_content(content)
         
-        # Generate new filename (remove underscore)
-        new_path = Path(str(file_path).replace('_', '', 1))
+        # Generate new filename with random ID
+        random_id = generate_random_id()
+        new_path = file_path.parent / f"{random_id}.md"
+        
+        # Ensure the random ID is unique
+        while new_path.exists():
+            random_id = generate_random_id()
+            new_path = file_path.parent / f"{random_id}.md"
         
         # Write to new file
         with open(new_path, 'w', encoding='utf-8') as file:
