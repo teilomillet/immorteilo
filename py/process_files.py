@@ -11,9 +11,9 @@ def clean_content(content):
     
     # Define all replacements
     replacements = [
-        (r'\*\*User\*\*', '**teilomillet**'),
+        (r'\*\*User\*\*', '**teilomillet**:\n'),
         (r'>> User:', '>> teilomillet:'),
-        (r'\*\*Claude\*\*', '**Assistant**'),
+        (r'\*\*Claude\*\*', '**Assistant**:\n'),
         (r'>> Claude:', '>> Assistant:'),
         (r'Claude:', 'Assistant:'),
     ]
