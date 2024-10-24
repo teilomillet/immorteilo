@@ -4,15 +4,17 @@ import re
 from pathlib import Path
 
 def clean_content(content):
-    """Clean the content by removing header and replacing 'User' with 'teilomillet'."""
+    """Clean the content by removing header and replacing 'User' with '<teilomillet>' and 'Claude' with '<Assistant>'."""
     # Remove the header section
     header_pattern = r'# Conversation\n-[^#]*?(?=\n## History|\Z)'
     content = re.sub(header_pattern, '', content, flags=re.DOTALL)
     
-    # Replace User with teilomillet
+    # Replace User/Claude with wrapped versions
     replacements = [
-        (r'\*\*User\*\*', '**teilomillet**'),
-        (r'>> User:', '>> teilomillet:'),
+        (r'\*\*User\*\*', '**<teilomillet>**'),
+        (r'\*\*Claude\*\*', '**<Assistant>**'),
+        (r'>> User:', '>> <teilomillet>:'),
+        (r'>> Claude:', '>> <Assistant>:'),
     ]
     
     for pattern, replacement in replacements:
